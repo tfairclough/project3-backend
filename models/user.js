@@ -1,0 +1,21 @@
+// Imports
+const mongoose = require('mongoose')
+
+// Define the user Schema: Self-reference for Friends List
+const userSchema = new mongoose.Schema({
+  firstName: { type: String , required: true},
+  lastName: { type: String , required: true},
+  userName: { type: String , required: true},
+  password: { type: String , required: true},
+  email: String,
+  location: String,
+  friends: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }]
+})
+
+// Define a User database entry
+const User = mongoose.model('User', userSchema)
+
+module.exports = User
