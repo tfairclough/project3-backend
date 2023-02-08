@@ -19,5 +19,9 @@ const app = express()
 // Define port
 const port = process.env.Port || 5001
 
+// Middleware -
+//  Converts JSON to Javacript Object
+app.use(express.json())
+
 // Ensuring the server is listening to the port
 app.listen(port, () => console.log(`Backend listening on port:${port}`))
