@@ -5,6 +5,13 @@ const cors = require('cors')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+const db = require('./config/db')
+
+// Instantitate DB connection 
+mongoose.connect(db, {useNewUrlParser : true})
+
+// Log on first connection
+mongoose.connection.once('open', () => console.log('Connected to MongoDB'))
 
 // Instantiate express server object 
 const app = express()

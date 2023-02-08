@@ -11,6 +11,6 @@ const database = {
 const localDB = process.env.TESTENV ? database.test : database.development
 
 // If live production use that database otherwise use the local db
-const currentDB = process.env.MONGODB_URI || localBD
+const currentDB = process.env.MONGODB_URI || localDB
 
 module.exports = currentDB
