@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 // Define the user Schema: Self-reference for Friends List
 const postSchema = new mongoose.Schema({
   img: String,
-  title: { type: String , required: true},
   content: { type: String , required: true},
   likes: [{
     type: Schema.Types.ObjectId,
@@ -15,7 +14,7 @@ const postSchema = new mongoose.Schema({
     ref: 'Commment'
   }]
 }, {
-  timestamps:true
+  timestamps: true
 })
 
 // Define a User database entry

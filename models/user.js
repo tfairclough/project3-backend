@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     ref: 'User'
   }]
 }, {
-  timestamps:true
+  timestamps: true
 })
 
 // Define a User database entry
