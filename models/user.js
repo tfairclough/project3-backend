@@ -7,12 +7,15 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String , required: true},
   userName: { type: String , required: true},
   password: { type: String , required: true},
+  img: String,
   email: String,
   location: String,
   friends: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }]
+}, {
+  timestamps:true
 })
 
 // Define a User database entry
