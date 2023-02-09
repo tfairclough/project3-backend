@@ -25,10 +25,13 @@ const app = express()
 
 // Define port
 const port = process.env.Port || 5001
+const reactPort = 3000;
    
 // Middleware -
 //  Converts JSON to Javacript Object
 app.use(express.json())
+
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || `http://localhost:${reactPort}`}))
 
 /** 
  * Routes
@@ -40,14 +43,14 @@ app.use(usersRouter);
 
 
 
-/* User.insertMany(userSeed, (error, users) => {
+User.insertMany(userSeed, (error, users) => {
     if(error) {
         console.log(error)
     }else {
         console.log(users)
     }
     
-  }) */
+})
 
 // Ensuring the server is listening to the port
 app.listen(port, () => console.log(`Backend listening on port:${port}`))

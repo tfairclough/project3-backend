@@ -20,7 +20,7 @@ router.post('/api/users', (req, res) => {
   //On a successful `create action, respond with 201
   // HTTP status and the content of the new User 
   .then((newUser) => {
-    res.status(201).json({ user : newUser})
+    res.status(201).json({ users : newUser})
   })
   // Catch any error that might occur
   .catch((error) => {
@@ -37,7 +37,7 @@ router.post('/api/users', (req, res) => {
 router.get('/api/users', (req, res) => {
   User.find()
   .then((users) => {
-    res.status(201).json({ user: users})
+    res.status(201).json({ users: users})
   })
   .catch((error) => {
     res.status(500).json({ error: error})
@@ -54,7 +54,7 @@ router.get('/api/users', (req, res) => {
 router.delete('/api/users/:id', (req, res) => {
   User.findByIdAndRemove(req.params.id)
   .then((users) => {
-    res.status(201).json({ user: users})
+    res.status(201).json({ users: users})
   })
   .catch((error) => {
     res.status(500).json({ error: error})
@@ -70,7 +70,7 @@ router.delete('/api/users/:id', (req, res) => {
 router.put('/api/users/:id', (req, res) => {
   User.findByIdAndUpdate(req.params.id, req.body.user)
   .then((users) => {
-    res.status(201).json({ user: users})
+    res.status(201).json({ users: users})
   })
   .catch((error) => {
     res.status(500).json({ error: error})
