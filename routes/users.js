@@ -32,7 +32,7 @@ router.post('/api/users', (req, res) => {
  * Action:        FIND
  * Method:        GET
  * URI:           /api/users
- * Description:   Create a new Account
+ * Description:   Search an acocunt
  */
 router.get('/api/users', (req, res) => {
   User.find()
@@ -49,7 +49,7 @@ router.get('/api/users', (req, res) => {
  * Action:        DELETE
  * Method:        DELETE
  * URI:           /api/users
- * Description:   Create a new Account
+ * Description:   Delete an account
  */
 router.delete('/api/users/:id', (req, res) => {
   User.findByIdAndRemove(req.params.id)
@@ -65,7 +65,7 @@ router.delete('/api/users/:id', (req, res) => {
  * Action:        UPDATE
  * Method:        PUT
  * URI:           /api/users
- * Description:   Create a new Account
+ * Description:   Update User Account Details
  */
 router.put('/api/users/:id', (req, res) => {
   User.findByIdAndUpdate(req.params.id, req.body.user)
