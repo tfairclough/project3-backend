@@ -44,4 +44,37 @@ router.get('/api/users', (req, res) => {
   })
 })
 
+
+/**
+ * Action:        DELETE
+ * Method:        DELETE
+ * URI:           /api/users
+ * Description:   Create a new Account
+ */
+router.delete('/api/users/:id', (req, res) => {
+  User.findByIdAndRemove(req.params.id)
+  .then((users) => {
+    res.status(201).json({ user: users})
+  })
+  .catch((error) => {
+    res.status(500).json({ error: error})
+  })
+})
+
+/**
+ * Action:        UPDATE
+ * Method:        PUT
+ * URI:           /api/users
+ * Description:   Create a new Account
+ */
+router.put('/api/users/:id', (req, res) => {
+  User.findByIdAndUpdate(req.params.id, req.body.user)
+  .then((users) => {
+    res.status(201).json({ user: users})
+  })
+  .catch((error) => {
+    res.status(500).json({ error: error})
+  })
+})
+
 module.exports = router
