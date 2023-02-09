@@ -42,7 +42,7 @@ app.use(indexRouter);
 app.use(usersRouter);
 
 
-
+// Comment this out after running once 
 User.insertMany(userSeed, (error, users) => {
     if(error) {
         console.log(error)
