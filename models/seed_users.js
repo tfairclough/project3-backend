@@ -1,0 +1,64 @@
+module.exports =
+[
+{
+    firstName: "Nick",
+    lastName: "Langley",
+    userName: "Eddy85",
+    password: "hsdg354safg3dafg54"
+}, {
+    firstName: "Deja",
+    lastName: "Gorden",
+    userName: "TheCaliforniaCoder",
+    password: "d5sfbh4dgn5hd4g53bn"
+}, {
+    firstName: "Tom",
+    lastName: "Fairclough",
+    userName: "Tommy",
+    password: "dd4bd35fb4b35eb5dbb54"
+}, {
+    firstName: "Ma-add",
+    lastName: "Al-Jabouri",
+    userName: "Maad",
+    password: "h5sdh4534sfhn54f3f5g4h"
+}, {
+    firstName: "Ana",
+    lastName: "Solcan",
+    userName: "Ana",
+    password: "d5sfbh4dgn5hd4g53bn"
+}, {
+    firstName: "Ethan",
+    lastName: "Berk",
+    userName: "EBerk",
+    password: "hsd3h1sdh31sf35h1ns3"
+}, {
+    firstName: "Hal",
+    lastName: "Evans",
+    userName: "Hally",
+    password: "fwsegg98earbfbdfb3"
+}, {
+    firstName: "Justin",
+    lastName: "Tate",
+    userName: "JT",
+    password: "35b43bh4df1bdabdfjj"
+}, {
+    firstName: "Nora",
+    lastName: "Zics",
+    userName: "Noni",
+    password: "7447412esafg11gs2gs"
+}, {
+    firstName: "Selina",
+    lastName: "Lavery",
+    userName: "Selina",
+    password: "76835df4gsd54a3fbv"
+}, {
+    firstName: "Usman",
+    lastName: "Bashir",
+    userName: "Usman",
+    password: "fjfskldj879sdvjksjdv70"
+}, {
+    firstName: "Joan",
+    lastName: "Kalanzi",
+    userName: "Joan",
+    password: "45ethstghtgfh25"
+},
+]
