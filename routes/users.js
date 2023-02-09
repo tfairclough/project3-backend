@@ -3,10 +3,7 @@ const express = require('express')
 
 // Require Mongoose Model
 const User = require('./../models/user.js')
-<<<<<<< HEAD
-=======
 const { unsubscribe } = require('./index.js')
->>>>>>> 0fc7fc839f416a6f97626e6909214bdc805e2ec4
 
 // Instantiate a Router (mini app the only handles routes)
 const router = express.Router()
@@ -23,11 +20,7 @@ router.post('/api/users', (req, res) => {
   //On a successful `create action, respond with 201
   // HTTP status and the content of the new User 
   .then((newUser) => {
-<<<<<<< HEAD
-    res.status(201).json({ user : newUser})
-=======
     res.status(201).json({ users : newUser})
->>>>>>> 0fc7fc839f416a6f97626e6909214bdc805e2ec4
   })
   // Catch any error that might occur
   .catch((error) => {
@@ -35,8 +28,6 @@ router.post('/api/users', (req, res) => {
   })
 })
 
-<<<<<<< HEAD
-=======
 /**
  * Action:        FIND
  * Method:        GET
@@ -86,5 +77,4 @@ router.put('/api/users/:id', (req, res) => {
   })
 })
 
->>>>>>> 0fc7fc839f416a6f97626e6909214bdc805e2ec4
 module.exports = router
