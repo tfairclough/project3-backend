@@ -58,6 +58,28 @@ const dummyUser = {
     username: 'deja',
     password: '1234'
   };
+        
+// Create user in register      
+app.post('/api/register', (req, res) => {
+
+    bcrypt.genSalt(saltRounds)
+        .then((salt) => {
+            console.log(salt);
+            return bcrypt.hash(req.body.user.password, salt);
+        })
+        .then((hash) => {
+            const user = new User({ ...req.body.user, password: hash });
+            return user.save();
+        })
+        .then(() => {
+            res.status(200).json({ message: 'User created successfully' });
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).json({ error: error.message });
+        });
+});
+
 
   app.post('/api/login', (req, res) => {
     if (req.body.username && req.body.password) {
