@@ -49,7 +49,7 @@ app.use(indexRouter);
 app.use(usersRouter);
 
         
-// Create user in register      
+// Create single user in register      
 app.post('/api/register', (req, res) => {
 
     bcrypt.genSalt(saltRounds)
@@ -70,6 +70,40 @@ app.post('/api/register', (req, res) => {
         });
 });
 
+
+// adds dummy users from the frontend and hashes the passwords.
+app.post('/api/registerUsers', (req, res) => {
+    const users = req.body.user;
+    if (!Array.isArray(users)) {
+      return res.status(400).json({ error: 'User data must be an array' });
+    }
+    console.log(users)
+    let createdUsers = 0;
+    for (const userData of users) {
+        console.log(userData)
+      bcrypt.genSalt(saltRounds)
+        .then((salt) => {
+          console.log(salt);
+          return bcrypt.hash(userData.password, salt);
+        })
+        .then((hash) => {
+          const user = new User({ ...userData, password: hash });
+          return user.save();
+        })
+        .then(() => {
+          createdUsers += 1;
+          if (createdUsers === users.length) {
+            res.status(200).json({ message: 'Users created successfully' });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).json({ error: error.message });
+        });
+    }
+  });
+  
+// login authentication and token
 app.post('/api/login', (req, res) => {
     if (req.body.user.userName && req.body.user.password) {
       User.findOne({userName: req.body.user.userName})
@@ -100,55 +134,7 @@ app.post('/api/login', (req, res) => {
       return res.status(400).json({ error: 'Username & Password Required' });
     }
   });
-  
-//   app.post('/api/login', (req, res) => {
-//     if (req.body.loginDetails.userName && req.body.loginDetails.password) {
-//     //   bcrypt.genSalt(saltRounds)
-//     //     .then((salt) => {
-//     //         console.log(salt);
-//     //         return bcrypt.hash(req.body.loginDetails.password, salt);
-//     //     })
-//         // .then(() => {
-//             User.findOne({userName: req.body.loginDetails.userName})
-//         // })
-//         .then((user) => {
-//             console.log(user)
-//             console.log(req.body)
-
-//             bcrypt.compare(req.body.password, user.password, function(err, res) {
-//                 if (err){
-//                   // handle error
-//                   res.status(500).json({ message: 'error' });
-//                 }
-//                 if (res) {
-//                   // Send JWT
-//                   const payload = {
-//                     id: user.id
-//                   };
-            
-//                   // Build a JSON Web Token using the payload
-//                   const token = jwt.sign(payload, jwtOptions.secretOrKey, { expiresIn: 600 }); // 10 minutes
-            
-//                   // Send the JSON Web Token back to the user
-//                   res.status(200).json({ success: true, token: token, message: 'User logged in successfully' });
-//                 } else {
-//                   // response is OutgoingMessage object that server response http request
-//                   res.status(401).json({success: false, message: 'passwords do not match'});
-//                 }
-//               });
-
-           
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//             res.status(500).json({ error: error.message });
-//         });
-//     } else {
-//       res.status(400).json({ error: 'Username & Password Required' });
-//     }
-//   });
-
-
+ 
    // this is the minimum needed to protect your route from users who aren't logged in
    app.get('/api/protected', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.status(200).json({
@@ -163,36 +149,8 @@ app.post('/api/login', (req, res) => {
     });
 }) 
 
-// User.insertMany(userSeed, (error, users) => {
-//     if(error) {
-//         console.log(error)
-//     }else {
-//         console.log(users)
-//     }
-    
-// })
 
 
-app.post('/api/register', (req, res) => {
-    console.log(req.body.password);
-
-    bcrypt.genSalt(saltRounds)
-        .then((salt) => {
-            console.log(salt);
-            return bcrypt.hash(req.body.user.password, salt);
-        })
-        .then((hash) => {
-            const user = new User({ ...req.body.user, password: hash });
-            return user.save();
-        })
-        .then(() => {
-            res.status(200).json({ message: 'User created successfully' });
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500).json({ error: error.message });
-        });
-});
 
 
 app.post('/api/login', (req, res) => {
