@@ -59,4 +59,22 @@ router.put('/api/users/:id', (req, res) => {
   })
 })
 
+/**
+ * Action:        FIND
+ * Method:        GET
+ * URI:           /api/search
+ * Description:   Create a new Account
+ */
+
+router.get('/api/search', (req, res) => {
+  User.find({ firstName: { $regex: /req.body.name/i }})
+  .then((users) => {
+    res.status(201).json({ users: users})
+  })
+  .catch((error) => {
+    res.status(500).json({ error: error})
+  })
+})
+
+
 module.exports = router
