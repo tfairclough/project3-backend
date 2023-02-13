@@ -7,7 +7,9 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const db = require('./config/db')
 const userSeed = require('./userSeed')
+const postSeed = require('./postSeed')
 const User = require('./models/user')
+const Post = require('./models/post')
 
 
 // Instantitate DB connection 
@@ -214,6 +216,20 @@ app.post('/api/login', (req, res) => {
         res.status(400).json({ error: 'Username & Password Required' })
     }
 })
+
+
+// Post.insertMany(postSeed, (error, users) => {
+//     if(error) {
+//         console.log(error)
+//     }else {
+//         console.log(users)
+//     }
+    
+// })
+
+
+
+
 
 
 app.get('/api/protected', passport.authenticate('jwt', {session: false}), (req, res) => {
