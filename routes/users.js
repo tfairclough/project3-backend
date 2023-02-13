@@ -63,19 +63,25 @@ router.put('/api/users/:id', (req, res) => {
  * Action:        FIND
  * Method:        GET
  * URI:           /api/search
- * Description:   Create a new Account
+ * Description:   search for friends - case insensitive and partial input
  */
+
 
 router.get('/api/search', (req, res) => {
   const theName = req.body.name
-  User.find({ "firstName" : { $regex : new RegExp(theName, "i") }})
-  .then((users) => {
-    res.status(201).json({ users: users})
-  })
-  .catch((error) => {
-    res.status(500).json({ error: error})
-  })
-})
-
+  User.find({
+     $or: [
+         { "firstName": { $regex: new RegExp(theName, "i") } },
+         { "lastName": { $regex: new RegExp(theName, "i") } },
+         { "userName": { $regex: new RegExp(theName, "i") } }
+     ]
+   })
+   .then((users) => {
+       res.status(201).json({ users: users })
+   })
+   .catch((error) => {
+       res.status(500).json({ error: error })
+   })
+ })
 
 module.exports = router
