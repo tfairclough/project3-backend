@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
   img: String,
   email: String,
   location: String,
+  posts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post'
+  }],
   friends: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

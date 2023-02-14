@@ -6,11 +6,11 @@ const postSchema = new mongoose.Schema({
   img: String,
   content: { type: String , required: true},
   likes: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
   comments: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Commment'
   }]
 }, {
