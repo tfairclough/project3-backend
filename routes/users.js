@@ -17,7 +17,7 @@ const router = express.Router()
  * Description:   Create a new Account
  */
 router.get('/api/users', (req, res) => {
-  User.findOne({userName: req.body.user.userName})
+  User.find()
   .then((user) => {
     res.status(201).json({ users: user})
   })
