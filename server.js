@@ -142,24 +142,55 @@ app.post('/api/login', (req, res) => {
 * Description:   Creates a new user, sets a token and returns the users details to be stored localy
 */        
 // Create single user in register      
-app.post('/api/register', (req, res) => {
+// app.post('/api/register', (req, res) => {
+//   const user = req.body.user;
+//   bcrypt.genSalt(saltRounds)
+//   .then((salt) => {
+//     return bcrypt.hash(user.password, salt);
+//   })
+//   .then((hash) => {
+//     const user = new User({ ...user, password: hash })
+//     return user.save();
+//   })
+//   .then(() => {
 
-  bcrypt.genSalt(saltRounds)
-      .then((salt) => {
-          console.log(salt);
-          return bcrypt.hash(req.body.user.password, salt);
-      })
-      .then((hash) => {
-          const user = new User({ ...req.body.user, password: hash });
-          return user.save();
-      })
-      .then(() => {
-          res.status(200).json({ message: 'User created successfully' });
-      })
-      .catch((error) => {
-          console.error(error);
-          res.status(500).json({ error: error.message });
+//   })
+// });
+
+app.post('/api/register', (req, res) => {
+  // Checks if userName and password have values
+  if (req.body.user.userName && req.body.user.password) {
+    // Hash the password using bcrypt
+    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+      if (err) {
+        return res.status(500).json({ message: 'error' });
+      }
+      // Create a new user object with hashed password
+      const newUser = new User({
+        firstName: req.body.user.firstName,
+        lastName: req.body.user.lastName,
+        userName: req.body.user.userName,
+        password: hash,
       });
+
+      // Save the new user in the database
+      newUser.save()
+        .then((user) => {
+          // adds users id to payload
+          const payload = { id: user.id };
+          // generates token to include payload, secretKey
+          const token = jwt.sign(payload, jwtOptions.secretOrKey);
+          // returns a response that includes the created token and the current user details
+          return res.status(200).json({ token: token, userDetails: user });
+        })
+        .catch((error) => {
+          return res.status(500).json({ message: 'error' });
+        });
+    });
+  } else {
+    // error message if username and password do not match or not filled out
+    return res.status(400).json({ error: 'Username & Password Required' });
+  }
 });
 
 

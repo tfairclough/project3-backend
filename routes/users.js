@@ -17,9 +17,9 @@ const router = express.Router()
  * Description:   Search an acocunt
  */
 router.get('/api/users', (req, res) => {
-  User.find()
-  .then((users) => {
-    res.status(201).json({ users: users})
+  User.findOne({userName: req.body.user.userName})
+  .then((user) => {
+    res.status(201).json({ users: user})
   })
   .catch((error) => {
     res.status(500).json({ error: error})
