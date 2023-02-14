@@ -67,23 +67,6 @@ router.put('/api/users/:id', (req, res) => {
  */
 
 
-/* router.get('/api/search', (req, res) => {
-  console.log(req)
-  const theName = req.body.name 
-  console.log(theName)
-  User.find({
-     $or: [
-         { "firstName": { $regex: new RegExp(theName, "i") } },
-         { "lastName": { $regex: new RegExp(theName, "i") } },
-         { "userName": { $regex: new RegExp(theName, "i") } }
-     ]
-   })
-   .then((users) => {
-       res.status(201).json({ users: users })
-   }) 
-   .catch((error) => {
-       res.status(500).json({ error: error })
-   })
- }) */
+/*  */
 
 module.exports = router
