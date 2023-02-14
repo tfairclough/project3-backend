@@ -17,7 +17,7 @@ const router = express.Router()
  * Description:   Search an acocunt
  */
 router.get('/api/users', (req, res) => {
-  User.findOne({userName: req.body.user.userName})
+  User.find()
   .then((user) => {
     res.status(201).json({ users: user})
   })
@@ -58,5 +58,15 @@ router.put('/api/users/:id', (req, res) => {
     res.status(500).json({ error: error})
   })
 })
+
+/**
+ * Action:        FIND
+ * Method:        GET
+ * URI:           /api/search
+ * Description:   search for friends - case insensitive and partial input
+ */
+
+
+/*  */
 
 module.exports = router
