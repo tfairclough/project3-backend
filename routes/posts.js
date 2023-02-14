@@ -15,11 +15,11 @@ const router = express.Router()
  */
 
 router.post('/api/posts', (req, res) => {
-  User.create(req.body.user)
+  Post.create(req.body.user)
   //On a successful `create action, respond with 201
   // HTTP status and the content of the new User 
-  .then((newUser) => {
-    res.status(201).json({ users : newUser})
+  .then((newPost) => {
+    res.status(201).json({ users : newPost})
   })
   // Catch any error that might occur
   .catch((error) => {

@@ -27,13 +27,14 @@ const saltRounds = 10;
 //Require Route Files
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
+const postRouter = require('./routes/posts')
 
 // Instantiate express server object 
 const app = express()
 
 // Define port
 const port = process.env.Port || 5001
-const reactPort = 3000;
+const reactPort = 3002;
    
 // Middleware -
 //  Converts JSON to Javacript Object
@@ -49,7 +50,7 @@ passport.use(strategy);
 */
 app.use(indexRouter);
 app.use(usersRouter);
-
+app.use(postRouter)
 /**
  * Action:        CREATE
  * Method:        POST
@@ -165,6 +166,17 @@ app.post('/api/register', (req, res) => {
 app.get('/api/protected', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.status(200).json({ message: 'hello you need a web token to see this', user: req.user })
 })
+
+
+// Code to add post seed to database. run once then comment it out
+
+// Post.insertMany(postSeed)
+//   .then((posts) => {
+//     console.log(posts)
+//   })
+//   .catch((error) => {
+//     console.log(error)
+//   })
 
 // Ensuring the server is listening to the port
 app.listen(port, () => console.log(`Backend listening on port:${port}`))
