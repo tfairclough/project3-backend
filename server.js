@@ -164,9 +164,9 @@ app.get('/api/protected', passport.authenticate('jwt', {session: false}), (req, 
     res.status(200).json({ message: 'hello you need a web token to see this', user: req.user })
 })
 
-app.get('/api/search', (req, res) => {
-  const theName = req.body.name 
-  console.log(req.body)
+app.get('/api/search/:name', (req, res) => {
+  const theName = req.params.name 
+  console.log(req.params)
   User.find({
      $or: [
          { "firstName": { $regex: new RegExp(theName, "i") } },
