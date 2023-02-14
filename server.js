@@ -34,7 +34,7 @@ const app = express()
 
 // Define port
 const port = process.env.Port || 5001
-const reactPort = 3002;
+const reactPort = 3000;
    
 // Middleware -
 //  Converts JSON to Javacript Object
