@@ -14,10 +14,27 @@ const router = express.Router()
  * Action:        FIND
  * Method:        GET
  * URI:           /api/users
- * Description:   Create a new Account
+ * Description:   Search an acocunt
  */
 router.get('/api/users', (req, res) => {
-  User.findOne({userName: req.body.user.userName})
+  User.find()
+  .then((user) => {
+    res.status(201).json({ users: user})
+  })
+  .catch((error) => {
+    res.status(500).json({ error: error})
+  })
+})
+
+
+/**
+ * Action:        FIND
+ * Method:        GET
+ * URI:           /api/users
+ * Description:   Get a speicific user by their ID
+ */
+router.get('/api/users/:id', (req, res) => {
+  User.findById(req.params.id)
   .then((user) => {
     res.status(201).json({ users: user})
   })
@@ -31,7 +48,7 @@ router.get('/api/users', (req, res) => {
  * Action:        DELETE
  * Method:        DELETE
  * URI:           /api/users
- * Description:   Create a new Account
+ * Description:   Delete an account
  */
 router.delete('/api/users/:id', (req, res) => {
   User.findByIdAndRemove(req.params.id)
@@ -47,10 +64,10 @@ router.delete('/api/users/:id', (req, res) => {
  * Action:        UPDATE
  * Method:        PUT
  * URI:           /api/users
- * Description:   Create a new Account
+ * Description:   Update User Account Details
  */
-router.put('/api/users/:id', (req, res) => {
-  User.findByIdAndUpdate(req.params.id, req.body.user)
+router.patch('/api/users/:id', (req, res) => {
+  User.findByIdAndUpdate(req.params.id, req.body.user , { new: true })
   .then((users) => {
     res.status(201).json({ users: users})
   })
@@ -58,5 +75,15 @@ router.put('/api/users/:id', (req, res) => {
     res.status(500).json({ error: error})
   })
 })
+
+/**
+ * Action:        FIND
+ * Method:        GET
+ * URI:           /api/search
+ * Description:   search for friends - case insensitive and partial input
+ */
+
+
+/*  */
 
 module.exports = router
