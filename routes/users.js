@@ -60,21 +60,18 @@ router.put('/api/users/:id', (req, res) => {
 })
 
 /**
- * Action:        FIND
- * Method:        GET
- * URI:           /api/search
- * Description:   search for friends - case insensitive and partial input
+ * Action:        CREATE
+ * Method:        POST
+ * URI:           /api/users/:userId/friends
+ * Description:   search for friends and add them to friends list
  */
-
-
-/*  */
 
 router.post('/api/users/:userId/friends', (req, res) => {
   const { userId } = req.params
   const { friendId } = req.body
   User.findById(userId)
     .then(user => {
-      User.findById(friendId)
+      User.find(friendId)
         .then(friend => {
           user.friends.push(friend)
           return user.save()
@@ -91,6 +88,33 @@ router.post('/api/users/:userId/friends', (req, res) => {
     })
 })
 
+/**
+ * Action:        DELETE
+ * Method:        DELETE
+ * URI:           /api/users/:userId/friends
+ * Description:   search for friend and remove them from friends list
+ */
 
+router.delete('/api/users/:userId/friends', (req, res) => {
+  const { userId } = req.params
+  const { friendId } = req.body
+  User.findById(userId)
+    .then(user => {
+      User.findById(friendId)
+        .then(friend => {
+          user.friends.splice(friend)
+          return user.save()
+        })
+        .then(() => {
+          res.json({ message: 'Friend removed' })
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message })
+        })
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message })
+    })
+})
 
 module.exports = router
