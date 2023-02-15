@@ -62,5 +62,15 @@ router.get('/api/posts', (req, res) => {
   })
 })
 
+router.patch('/api/posts/addLike/:id', (req, res) => {
+  Post.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } }, { new: true })
+  .then((post) => {
+    res.status(201).json({ post: post });
+  })
+  .catch((error) => {
+    res.status(500).json({ error: error });
+  });
+});
+
 
 module.exports = router

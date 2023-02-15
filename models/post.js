@@ -5,10 +5,7 @@ const mongoose = require('mongoose')
 const postSchema = new mongoose.Schema({
   img: String,
   content: { type: String , required: true},
-  likes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
+  likes: Number,
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Commment'
@@ -21,3 +18,9 @@ const postSchema = new mongoose.Schema({
 const Post = mongoose.model('Post', postSchema)
 
 module.exports = Post
+
+// Code if we have time to make likes referenced rather than just a number
+  // likes: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User'
+  // }],
