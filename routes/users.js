@@ -81,6 +81,9 @@ router.post('/api/users/:userId/friends', (req, res) => {
   const { friendId } = req.body
   User.findById(userId)
     .then(user => {
+      if (user.friends.includes(friendId)) {
+        res.json({ message: 'Friend already added' })
+      }
       User.findById(friendId)
         .then(friend => {
           user.friends.push(friend)
