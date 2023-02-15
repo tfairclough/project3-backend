@@ -28,6 +28,23 @@ router.get('/api/users', (req, res) => {
 
 
 /**
+ * Action:        FIND
+ * Method:        GET
+ * URI:           /api/users
+ * Description:   Get a speicific user by their ID
+ */
+router.get('/api/users/:id', (req, res) => {
+  User.findById(req.params.id)
+  .then((user) => {
+    res.status(201).json({ users: user})
+  })
+  .catch((error) => {
+    res.status(500).json({ error: error})
+  })
+})
+
+
+/**
  * Action:        DELETE
  * Method:        DELETE
  * URI:           /api/users
@@ -49,8 +66,8 @@ router.delete('/api/users/:id', (req, res) => {
  * URI:           /api/users
  * Description:   Update User Account Details
  */
-router.put('/api/users/:id', (req, res) => {
-  User.findByIdAndUpdate(req.params.id, req.body.user)
+router.patch('/api/users/:id', (req, res) => {
+  User.findByIdAndUpdate(req.params.id, req.body.user , { new: true })
   .then((users) => {
     res.status(201).json({ users: users})
   })
