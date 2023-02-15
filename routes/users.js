@@ -83,8 +83,8 @@ router.post('/api/users/:userId/friends', (req, res) => {
     .then(user => {
       if (user.friends.includes(friendId)) {
         res.json({ message: 'Friend already added' })
-      }
-      User.findById(friendId)
+      } else {
+        User.findById(friendId)
         .then(friend => {
           user.friends.push(friend)
           return user.save()
@@ -95,6 +95,33 @@ router.post('/api/users/:userId/friends', (req, res) => {
         .catch(error => {
           res.status(500).json({ error: error.message })
         })
+      } 
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message })
+    })
+})
+
+router.delete('/api/users/:userId/friends', (req, res) => {
+  const { userId } = req.params
+  const { friendId } = req.body
+  User.findById(userId)
+    .then(user => {
+      if (user.friends.includes(friendId)) {
+        User.findById(friendId)
+        .then(friend => {
+          user.friends.splice(friend, 1)
+          return user.save()
+        })
+        .then(() => {
+          res.json({ message: 'Friend removed' })
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message })
+        })
+      } else {
+        res.json({ message: 'Friend already removed' })
+      } 
     })
     .catch(error => {
       res.status(500).json({ error: error.message })
