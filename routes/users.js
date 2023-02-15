@@ -69,4 +69,28 @@ router.put('/api/users/:id', (req, res) => {
 
 /*  */
 
+router.post('/api/users/:userId/friends', (req, res) => {
+  const { userId } = req.params
+  const { friendId } = req.body
+  User.findById(userId)
+    .then(user => {
+      User.findById(friendId)
+        .then(friend => {
+          user.friends.push(friend)
+          return user.save()
+        })
+        .then(() => {
+          res.json({ message: 'Friend added successfully!' })
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message })
+        })
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message })
+    })
+})
+
+
+
 module.exports = router
