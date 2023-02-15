@@ -76,4 +76,14 @@ router.patch('/api/users/:id', (req, res) => {
   })
 })
 
+/**
+ * Action:        FIND
+ * Method:        GET
+ * URI:           /api/search
+ * Description:   search for friends - case insensitive and partial input
+ */
+
+
+/*  */
+
 module.exports = router

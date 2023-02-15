@@ -194,11 +194,6 @@ app.post('/api/register', (req, res) => {
 });
 
 
-app.get('/api/protected', passport.authenticate('jwt', {session: false}), (req, res) => {
-    res.status(200).json({ message: 'hello you need a web token to see this', user: req.user })
-})
-
-
 // Code to add post seed to database. run once then comment it out
 
 // Post.insertMany(postSeed)
@@ -208,6 +203,28 @@ app.get('/api/protected', passport.authenticate('jwt', {session: false}), (req, 
 //   .catch((error) => {
 //     console.log(error)
 //   })
+
+app.get('/api/search/:name', (req, res) => {
+  const theName = req.params.name 
+  console.log(req.params)
+  User.find({
+     $or: [
+         { "firstName": { $regex: new RegExp(theName, "i") } },
+         { "lastName": { $regex: new RegExp(theName, "i") } },
+         { "userName": { $regex: new RegExp(theName, "i") } }
+     ]
+   })
+   .then((users) => {
+       res.status(201).json({ users: users })
+   }) 
+   .catch((error) => {
+       res.status(500).json({ error: error })
+   })
+ })
+
+app.get('/api/protected', passport.authenticate('jwt', {session: false}), (req, res) => {
+    res.status(200).json({ message: 'hello you need a web token to see this', user: req.user })
+})
 
 // Ensuring the server is listening to the port
 app.listen(port, () => console.log(`Backend listening on port:${port}`))
