@@ -1,7 +1,7 @@
 // Require necessary NPM Packages
 const express = require('express')
 
-// Require Mongoose Model
+// Require Mongoose Model 
 const User = require('./../models/user.js')
 const { unsubscribe } = require('./index.js')
 
@@ -35,7 +35,6 @@ router.get('/api/users', (req, res) => {
  */
 router.get('/api/users/:id', (req, res) => {
   User.findById(req.params.id)
-  User.find()
   .then((user) => {
     res.status(201).json({ users: user})
   })
@@ -75,6 +74,28 @@ router.patch('/api/users/:id', (req, res) => {
   .catch((error) => {
     res.status(500).json({ error: error})
   })
+})
+
+router.post('/api/users/:userId/friends', (req, res) => {
+  const { userId } = req.params
+  const { friendId } = req.body
+  User.findById(userId)
+    .then(user => {
+      User.findById(friendId)
+        .then(friend => {
+          user.friends.push(friend)
+          return user.save()
+        })
+        .then(() => {
+          res.json({ message: 'Friend added successfully!' })
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message })
+        })
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message })
+    })
 })
 
 module.exports = router
