@@ -62,8 +62,8 @@ router.get('/api/posts', (req, res) => {
   })
 })
 
-router.patch('/api/posts/addLike', (req, res) => {
-  Post.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } })
+router.patch('/api/posts/addLike/:id', (req, res) => {
+  Post.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } }, { new: true })
   .then((post) => {
     res.status(201).json({ post: post });
   })
