@@ -156,40 +156,77 @@ app.post('/api/login', (req, res) => {
 
 app.post('/api/register', (req, res) => {
   // Checks if userName and password have values
-  if (req.body.user.userName && req.body.user.password) {
-    // Hash the password using bcrypt
-    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
-      if (err) {
-        return res.status(500).json({ message: 'error' });
-      }
-      // Create a new user object with hashed password
-      const newUser = new User({
-        firstName: req.body.user.firstName,
-        lastName: req.body.user.lastName,
-        userName: req.body.user.userName,
-        password: hash,
-      });
-
-      // Save the new user in the database
-      newUser.save()
-        .then((user) => {
-          // adds users id to payload
-          const payload = { id: user.id };
-          // generates token to include payload, secretKey
-          const token = jwt.sign(payload, jwtOptions.secretOrKey);
-          // returns a response that includes the created token and the current user details
-          return res.status(200).json({ token: token, userDetails: user });
-        })
-        .catch((error) => {
-          return res.status(500).json({ message: 'error' });
-        });
-    });
+  if (!req.body.user.userName || req.body.user.userName.trim() === '') {
+    return res.status(400).json({ message: 'Username is required' });
+  } else if (!req.body.user.password) {
+    return res.status(400).json({ message: 'Password is required' });
+  } else if (!req.body.user.firstName) {
+    return res.status(400).json({ message: 'First name is required' });
+  } else if (!req.body.user.lastName) {
+    return res.status(400).json({ message: 'Last name is required' });
   } else {
-    // error message if username and password do not match or not filled out
-    return res.status(400).json({ error: 'Username & Password Required' });
+    // Check if username is unique
+    User.findOne({ userName: req.body.user.userName })
+      .then((existingUser) => {
+        if (existingUser) {
+          return res.status(400).json({ message: 'Username already exists' });
+        }
+
+        // Hash the password using bcrypt
+        bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+          if (err) {
+            return res.status(500).json({ message: 'Internal server error' });
+          }
+          // Create a new user object with hashed password
+          const newUser = new User({
+            firstName: req.body.user.firstName,
+            lastName: req.body.user.lastName,
+            userName: req.body.user.userName,
+            password: hash,
+          });
+
+          // Save the new user in the database
+          newUser.save()
+            .then((user) => {
+              // adds users id to payload
+              const payload = { id: user.id };
+              // generates token to include payload, secretKey
+              const token = jwt.sign(payload, jwtOptions.secretOrKey);
+              // returns a response that includes the created token and the current user details
+              return res.status(200).json({ token: token, userDetails: user });
+            })
+            .catch((error) => {
+              return res.status(500).json({ message: 'Internal server error' });
+            });
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({ message: 'Internal server error' });
+      });
   }
 });
 
+app.post('/api/users/:userId/friends', (req, res) => {
+  const { userId } = req.params
+  const { friendId } = req.body
+  User.findById(userId)
+    .then(user => {
+      User.findById(friendId).select('-password')
+        .then(friend => {
+          user.friends.push(friend)
+          return user.save()
+        })
+        .then(() => {
+          res.json({ message: 'Friend added successfully!' })
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message })
+        })
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message })
+    })
+})
 
 app.get('/api/protected', passport.authenticate('jwt', {session: false}), (req, res) => {
     res.status(200).json({ message: 'hello you need a web token to see this', user: req.user })
