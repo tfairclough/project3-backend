@@ -11,28 +11,12 @@ const userSchema = new mongoose.Schema({
   email: String,
   location: String,
   posts: [{
-    post: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Post'
-    },
-    img: String,
-    content: { type: String , required: true},
-    likes: { type: Number, default: 0 },
-    comments: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Commment'
-  }]
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post'
   }],
   friends: [{
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    firstName: { type: String , required: true},
-    lastName: { type: String , required: true},
-    userName: { type: String , required: true, unique: true},
-    img: String,
-    location: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }]
 }, {
   timestamps: true
