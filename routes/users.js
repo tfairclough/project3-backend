@@ -1,7 +1,7 @@
 // Require necessary NPM Packages
 const express = require('express')
 
-// Require Mongoose Model
+// Require Mongoose Model 
 const User = require('./../models/user.js')
 const { unsubscribe } = require('./index.js')
 
@@ -76,6 +76,27 @@ router.patch('/api/users/:id', (req, res) => {
   })
 })
 
+router.post('/api/users/:userId/friends', (req, res) => {
+  const { userId } = req.params
+  const { friendId } = req.body
+  User.findById(userId)
+    .then(user => {
+        User.findById(friendId)
+        .then(friend => {
+          user.friends.push(friend)
+          return user.save()
+        })
+        .then(() => {
+          res.json({ message: 'Friend added successfully!' })
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message })
+        })
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message })
+    })
+})
 
 /**
  * Action:        FIND
@@ -99,7 +120,30 @@ router.get('/api/users/posts/:id', (req, res) => {
  * Description:   search for friends - case insensitive and partial input
  */
 
-
-/*  */
+router.delete('/api/users/:userId/friends', (req, res) => {
+  const { userId } = req.params
+  const { friendId } = req.body
+  User.findById(userId)
+    .then(user => {
+      if (user.friends.includes(friendId)) {
+        User.findById(friendId)
+        .then(friend => {
+          user.friends.splice(friend, 1)
+          return user.save()
+        })
+        .then(() => {
+          res.json({ message: 'Friend removed' })
+        })
+        .catch(error => {
+          res.status(500).json({ error: error.message })
+        })
+      } else {
+        res.json({ message: 'Friend already removed' })
+      } 
+    })
+    .catch(error => {
+      res.status(500).json({ error: error.message })
+    })
+})
 
 module.exports = router
