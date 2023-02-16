@@ -194,16 +194,6 @@ app.post('/api/register', (req, res) => {
 });
 
 
-// Code to add post seed to database. run once then comment it out
-
-// Post.insertMany(postSeed)
-//   .then((posts) => {
-//     console.log(posts)
-//   })
-//   .catch((error) => {
-//     console.log(error)
-//   })
-
 app.get('/api/search/:name', (req, res) => {
   const theName = req.params.name 
   console.log(req.params)
