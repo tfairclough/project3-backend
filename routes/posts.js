@@ -14,18 +14,20 @@ const router = express.Router()
  * Description:   Create a new post
  */
 
-router.post('/api/posts', (req, res) => {
-  Post.create(req.body.user)
+
+router.post('/api/posts/create', (req, res) => {
+  Post.create({ content: req.body.content }, { new: true })
   //On a successful `create action, respond with 201
-  // HTTP status and the content of the new User 
-  .then((newPost) => {
-    res.status(201).json({ users : newPost})
-  })
-  // Catch any error that might occur
-  .catch((error) => {
-    res.status(500).json({ error : error })
-  })
-})
+  // HTTP status and the content of the new Post
+    .then((newPost) => {
+      res.status(201).json({ post: newPost });
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error });
+    });
+});
+
+
 
 
 /**
