@@ -37,7 +37,23 @@ router.post('/api/posts/create/:id', (req, res) => {
 });
 
 
+/**
+ * Action:        GET
+ * Method:        GET
+ * URI:           /api/post/:id
+ * Description:   Find psot by id
+ */
 
+
+router.get('/api/posts/:id', (req, res) => {
+  Post.findById(req.params.id)
+    .then((post) => {
+      res.status(201).json({ post: post});
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error });
+  });
+})
 
 /**
  * Action:        UPDATE
