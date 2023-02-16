@@ -19,7 +19,7 @@ const router = express.Router()
 router.post('/api/posts/create/:id', (req, res) => {
   User.findById(req.params.id)
     .then((user) => {
-      Post.create({ content: req.body.content })
+      Post.create({ content: req.body.content, createdBy:req.body.createdBy })
         .then((newPost) => {
           user.posts.push(newPost._id);
           return user.save();
