@@ -98,6 +98,28 @@ router.post('/api/users/:userId/friends', (req, res) => {
     })
 })
 
+/**
+ * Action:        FIND
+ * Method:        GET
+ * URI:           /api/users
+ * Description:   Get a speicific user by their ID
+ */
+router.get('/api/users/posts/:id', (req, res) => {
+  User.findById(req.params.id)
+  .then((user) => {
+    res.status(201).json({ posts: user.posts})
+  })
+  .catch((error) => {
+    res.status(500).json({ error: error})
+  })
+})
+/**
+ * Action:        FIND
+ * Method:        GET
+ * URI:           /api/search
+ * Description:   search for friends - case insensitive and partial input
+ */
+
 router.delete('/api/users/:userId/friends', (req, res) => {
   const { userId } = req.params
   const { friendId } = req.body

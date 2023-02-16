@@ -1,5 +1,6 @@
 // Require necessary NPM Packages
-const express = require('express')
+const express = require('express');
+const User = require('../models/user.js');
 
 // Require Mongoose Model
 const Post = require('./../models/post.js')
@@ -14,19 +15,45 @@ const router = express.Router()
  * Description:   Create a new post
  */
 
-router.post('/api/posts', (req, res) => {
-  Post.create(req.body.user)
-  //On a successful `create action, respond with 201
-  // HTTP status and the content of the new User 
-  .then((newPost) => {
-    res.status(201).json({ users : newPost})
-  })
-  // Catch any error that might occur
-  .catch((error) => {
-    res.status(500).json({ error : error })
-  })
-})
 
+router.post('/api/posts/create/:id', (req, res) => {
+  User.findById(req.params.id)
+    .then((user) => {
+      Post.create({ content: req.body.content })
+        .then((newPost) => {
+          user.posts.push(newPost._id);
+          return user.save();
+        })
+        .then(() => {
+          res.status(201).json({ message: 'Post created successfully' });
+        })
+        .catch((error) => {
+          res.status(500).json({ error: error });
+        });
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error });
+    });
+});
+
+
+/**
+ * Action:        GET
+ * Method:        GET
+ * URI:           /api/post/:id
+ * Description:   Find psot by id
+ */
+
+
+router.get('/api/posts/:id', (req, res) => {
+  Post.findById(req.params.id)
+    .then((post) => {
+      res.status(201).json({ post: post});
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error });
+  });
+})
 
 /**
  * Action:        UPDATE
