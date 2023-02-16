@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const postSchema = new mongoose.Schema({
   img: String,
   content: { type: String , required: true},
-  likes: { Number, default: 0 },
+  likes: { type: Number, default: 0 },
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Commment'

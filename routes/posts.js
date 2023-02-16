@@ -1,5 +1,6 @@
 // Require necessary NPM Packages
-const express = require('express')
+const express = require('express');
+const User = require('../models/user.js');
 
 // Require Mongoose Model
 const Post = require('./../models/post.js')
@@ -15,12 +16,20 @@ const router = express.Router()
  */
 
 
-router.post('/api/posts/create', (req, res) => {
-  Post.create({ content: req.body.content }, { new: true })
-  //On a successful `create action, respond with 201
-  // HTTP status and the content of the new Post
-    .then((newPost) => {
-      res.status(201).json({ post: newPost });
+router.post('/api/posts/create/:id', (req, res) => {
+  User.findById(req.params.id)
+    .then((user) => {
+      Post.create({ content: req.body.content })
+        .then((newPost) => {
+          user.posts.push(newPost._id);
+          return user.save();
+        })
+        .then(() => {
+          res.status(201).json({ message: 'Post created successfully' });
+        })
+        .catch((error) => {
+          res.status(500).json({ error: error });
+        });
     })
     .catch((error) => {
       res.status(500).json({ error: error });
