@@ -14,6 +14,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "start": "mongodb+srv://<username>:<password>@cluster0.qfbqhlu.mongodb.net/?retryWrites=true&w=majority",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,3 +28,4 @@
   },
   "homepage": "https://github.com/tfairclough/project3-backend#readme"
 }
+
