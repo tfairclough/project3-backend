@@ -1,5 +1,6 @@
 // Require necessary NPM Packages
 const express = require('express');
+const { remove } = require('../models/user.js');
 const User = require('../models/user.js');
 
 // Require Mongoose Model
@@ -54,6 +55,28 @@ router.get('/api/posts/:id', (req, res) => {
       res.status(500).json({ error: error });
   });
 })
+
+/**
+ * Action:        DELETE
+ * Method:        DELETE
+ * URI:           /api/post/:id
+ * Description:   Find psot by id and delete
+ */
+
+
+router.delete('/api/users/posts/:id', (req, res) => {
+  Post.findById(req.params.id)
+    .then((post) => {
+      return post.remove();
+    })
+    .then(() => {
+      res.status(204).send();
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+});
+
 
 /**
  * Action:        UPDATE
