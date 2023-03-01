@@ -14,8 +14,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "mongodb+srv://<username>:<password>@cluster0.qfbqhlu.mongodb.net/?retryWrites=true&w=majority",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

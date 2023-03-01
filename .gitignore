@@ -1,3 +1,5 @@
 node_modules
 .env
 ToDo
+Dockerfile
+fly.toml

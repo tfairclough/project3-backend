@@ -1,11 +1,12 @@
-# fly.toml file generated for napstersocial on 2023-02-27T16:44:35Z
+# fly.toml file generated for napstersocialfinal on 2023-03-01T17:44:39Z
 
-app = "napstersocial"
+app = "napstersocialfinal"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
+  PORT = "8080"
 
 [experimental]
   auto_rollback = true

@@ -33,7 +33,7 @@ const postRouter = require('./routes/posts')
 const app = express()
 
 // Define port
-const port = process.env.Port || 5001
+const port = process.env.EXPRESS_PORT || 5001
 const reactPort = 3000;
    
 // Middleware -
@@ -156,7 +156,6 @@ app.post('/api/login', (req, res) => {
 
 //   })
 // });
-<<<<<<< HEAD
 
 app.post('/api/register', (req, res) => {
   // Checks if userName and password have values
@@ -207,42 +206,6 @@ app.post('/api/register', (req, res) => {
       .catch((error) => {
         return res.status(500).json({ message: 'Internal server error' });
       });
-=======
-
-app.post('/api/register', (req, res) => {
-  // Checks if userName and password have values
-  if (req.body.user.userName && req.body.user.password) {
-    // Hash the password using bcrypt
-    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
-      if (err) {
-        return res.status(500).json({ message: 'error' });
-      }
-      // Create a new user object with hashed password
-      const newUser = new User({
-        firstName: req.body.user.firstName,
-        lastName: req.body.user.lastName,
-        userName: req.body.user.userName,
-        password: hash,
-      });
-
-      // Save the new user in the database
-      newUser.save()
-        .then((user) => {
-          // adds users id to payload
-          const payload = { id: user.id };
-          // generates token to include payload, secretKey
-          const token = jwt.sign(payload, jwtOptions.secretOrKey);
-          // returns a response that includes the created token and the current user details
-          return res.status(200).json({ token: token, userDetails: user });
-        })
-        .catch((error) => {
-          return res.status(500).json({ message: 'error' });
-        });
-    });
-  } else {
-    // error message if username and password do not match or not filled out
-    return res.status(400).json({ error: 'Username & Password Required' });
->>>>>>> 83d22623978f7a02869dab79a27461a332b07924
   }
 });
 
